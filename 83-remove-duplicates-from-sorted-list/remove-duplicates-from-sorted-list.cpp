@@ -15,23 +15,19 @@ public:
         {
             return NULL;
         }
-        else if(head->next==NULL)
-        {
-            return head;
-        }
         ListNode* pre=head;
         ListNode* curr=head->next;
         while(curr!=NULL)
         {
-            if(pre->val==curr->val)
+            if(curr->val==pre->val)
             {
                 pre->next=curr->next;
-                curr=pre->next;
+                curr=curr->next;
             }
             else
             {
-            pre=pre->next;
-            curr=curr->next;
+                pre=pre->next;
+                curr=curr->next;
             }
         }
         return head;

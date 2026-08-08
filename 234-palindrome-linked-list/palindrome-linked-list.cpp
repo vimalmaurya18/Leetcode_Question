@@ -11,28 +11,21 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        //firstly original list ki copy banani hogi
-        ListNode* temp=head;
-        ListNode* copyhead=NULL;
-        ListNode* copytail=NULL;
-        while(temp!=NULL)
+        ListNode* fast=head;
+        ListNode* slow=head;
+        ListNode* temp1=head;
+        while(fast!=NULL)
         {
-            ListNode* newnode=new ListNode(temp->val); 
-            if(copyhead==NULL)
+            fast=fast->next;
+            if(fast!=NULL)
             {
-                copyhead=newnode;
-                copytail=newnode;
+                fast=fast->next;
             }
-            else
-            {
-                copytail->next=newnode;
-                copytail=newnode;
-            }
-            temp=temp->next;
+            slow=slow->next;
         }
-        //ab ek naya linked list bana hai jo ki puraani ka copy hai
+        //ab slow pointer jo hai wo middle node par pahuch chuka hai
         ListNode* pre=NULL;
-        ListNode* curr=head;
+        ListNode* curr=slow;
         ListNode* forward;
         while(curr!=NULL)
         {
@@ -41,16 +34,16 @@ public:
             pre=curr;
             curr=forward;
         }
-     ListNode* temp2=pre;
-     while(copyhead!=NULL && temp2!=NULL)
-     {
-        if(copyhead->val!=temp2->val)
+        //now the half part of the linked list has been reversed and now we have to compare 
+        while(pre!=NULL)
         {
-            return false;
+            if(temp1->val!=pre->val)
+            {
+                return false;
+            }
+            pre=pre->next;
+            temp1=temp1->next;
         }
-        copyhead=copyhead->next;
-        temp2=temp2->next;
-     }
-     return true;
+       return true;
     }
 };

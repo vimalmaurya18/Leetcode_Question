@@ -16,42 +16,73 @@ public:
 
 class Solution {
 public:
-void insert(Node* temp,Node* &tail)
-  {
-      tail->next=temp;
-      tail=tail->next;
-      return;
-  }
+    void insert(Node* newnode,Node* &clonehead,Node* &clonetail)
+    {
+        if(clonehead==NULL)
+        {
+            clonehead=newnode;
+            clonetail=clonehead;
+            return;
+        }
+        clonetail->next=newnode;
+        clonetail=clonetail->next;
+        return;
+    }
     Node* copyRandomList(Node* head) {
-         //fristly we will make a clone(copy) node
-        Node* clonehead=new Node(-1);
-        Node* clonetail=clonehead;
+        //CONCEPT:
+        // step 1:make a clone linked list
+        // step 2:insert the clone linked list in the original list
+        // step 3:copy the random pointer
+        // step 4:reverse the changes done in the step 2
+        // step 5:return the ans
+
+
+        Node* clonehead=NULL;
+        Node* clonetail=NULL;
         Node* temp=head;
         while(temp!=NULL)
         {
-            Node* newnode=new Node(temp->val);
-            insert(newnode,clonetail);
+            Node* newnode = new Node(temp->val);
+            insert(newnode,clonehead,clonetail);
             temp=temp->next;
         }
-        //now we wil map the clone node to the original node
-        Node* originalnode=head;
-        Node* clonenode=clonehead->next;
-       unordered_map<Node*,Node*>mapping;
-        while(originalnode!=NULL)
+        Node* temphead=head;
+        Node* tempclonehead=clonehead;
+        Node* forward;
+        Node* cloneforward;
+        while(temphead!=NULL && tempclonehead!=NULL)
         {
-            mapping[originalnode]=clonenode;
-            originalnode=originalnode->next;
-            clonenode=clonenode->next;
+            forward=temphead->next;
+            cloneforward=tempclonehead->next;
+            temphead->next=tempclonehead;
+            temphead=forward;
+            tempclonehead->next=temphead;
+            tempclonehead=cloneforward;
         }
-        originalnode=head;
-        clonenode=clonehead->next;
-        while(clonenode!=NULL)
+        temphead=head;
+        tempclonehead=clonehead;
+        while(temphead!=NULL)
         {
-          clonenode->random=mapping[originalnode->random];
-          clonenode=clonenode->next;
-          originalnode=originalnode->next;
+            if(temphead->random!=NULL)
+            temphead->next->random=temphead->random->next;
+            temphead=temphead->next;
+            if(temphead!=NULL)
+            {
+                temphead=temphead->next;
+            }
         }
-        return clonehead->next;
+        //now both clone and original shoud seperate
+        temphead=head;
+        tempclonehead=clonehead;
+        while(temphead!=NULL && tempclonehead!=NULL)
+        {
+           if(temphead->next!=NULL)
+            temphead->next=temphead->next->next;
+            if(tempclonehead->next!=NULL)
+            tempclonehead->next=temphead->next->next;
+            temphead=temphead->next;
+            tempclonehead=tempclonehead->next;
+        }
+        return clonehead;
     }
-    
 };

@@ -3,7 +3,6 @@ public:
     vector<int> rearrangeArray(vector<int>& nums) {
         vector<int>ans1;
         vector<int>ans2;
-        vector<int>ans;
         int n=nums.size();
         int i=0;
         while(i<nums.size())
@@ -20,19 +19,21 @@ public:
         }
         int j=0;
         int k=0;
-        while(ans.size()!=n)
+        int p=0;
+        while(p<n)
         {
-            if(ans.empty() || ans.back()<0)
+            if(p==0 || p%2==0)
             {
-                ans.push_back(ans1[j]);
+                nums[p]=ans1[j];
                 j++;
             }
-            else if(ans.back()>0)
+            else
             {
-                ans.push_back(ans2[k]);
+                nums[p]=ans2[k];
                 k++;
             }
+            p++;
         }
-        return ans;
+        return nums;
     }
 };

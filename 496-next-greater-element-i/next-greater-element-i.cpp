@@ -1,41 +1,38 @@
 class Solution {
 public:
-int find(int x,vector<int>& nums2)
-{
-    int p=-1;
-    int j=0;
-    while(j<nums2.size())
-    {
-       if(x==nums2[j])
-       {
-        break;
-       }
-       j++;
-    }
-    while(j<nums2.size())
-    {
-        if(x<nums2[j])
-        {
-            p=nums2[j];
-            break;
-        }
-        j++;
-    }
-    if(p==x)
-    {
-        return -1;
-    }
-    return p;
-}
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-        int i=0,k=-1;
-        vector<int>ans;
-        while(i<nums1.size())
+        stack<int>s;
+        s.push(-1);
+        vector<int>ans(nums2.size(),0);
+        int i=nums2.size()-1;
+        while(i>=0)
         {
-           k= find(nums1[i],nums2);
-           ans.push_back(k);
-            i++;
+           if(s.top()>nums2[i])
+           {
+            ans[i]=s.top();
+            s.push(nums2[i]);
+           }
+           else
+           {
+            while(s.top()>=0 && s.top()<=nums2[i])
+            {
+                s.pop();
+            }
+            ans[i]=s.top();
+            s.push(nums2[i]);
+           }
+           i--;
         }
-     return ans;
+        map<int,int>m;
+        for(int i=0;i<ans.size();i++)
+        {
+           m[nums2[i]]=ans[i];
+        }
+        vector<int>answer(nums1.size(),0);
+        for(int i=0;i<nums1.size();i++)
+        {
+           answer[i]=m[nums1[i]];
+        }
+        return answer;
     }
 };

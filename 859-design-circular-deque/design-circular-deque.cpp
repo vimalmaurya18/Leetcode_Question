@@ -1,80 +1,130 @@
 class MyCircularDeque {
 public:
-    int front;
-    int rear;
-    int* arr;
-    int cnt;
-    int k;
+int* arr;
+int front;
+int rear;
+int k;//size of the array that we are using
     MyCircularDeque(int k) {
         this->k=k;
-        rear=0;
-        front=k-1;
         arr=new int[k];
-        cnt=0;
+        front=-1;
+        rear=-1;
     }
     
     bool insertFront(int value) {
-        if(cnt==k)
-        {
+         if((front==0 && rear==k-1) || (rear==(front-1+k)%k))
+         {
             return false;
-        }
-        arr[front]=value;
-        front=(front-1+k)%k;
-        cnt++;
-        return true;
+         }
+         if(front==-1)
+         {
+            front=0;
+            rear=0;
+            arr[front]=value;
+         }
+         else if(front==0)
+         {
+            front=k-1;
+            arr[front]=value;
+         }
+         else
+         {
+            front=front-1;
+            arr[front]=value;
+         }
+         return true;
     }
     
     bool insertLast(int value) {
-        if(cnt==k)
+        if((front==0 && rear==k-1) || (rear==(front-1+k)%k))
         {
             return false;
         }
-        arr[rear]=value;
-        rear=(rear+1)%k;
-        cnt++;
-        return  true;
+        if(front==-1)
+        {
+            front=0;
+            rear=0;
+            arr[rear]=value;
+        }
+        else if(rear==k-1)
+        {
+            rear=0;
+            arr[rear]=value;
+        }
+        else
+        {
+            rear=rear+1;
+            arr[rear]=value;
+        }
+        return true;
     }
     
     bool deleteFront() {
-        if(cnt==0)
+        if(front==-1)
         {
             return false;
         }
-        arr[(front+1)%k]=-1;
-        front=(front+1)%k;
-        cnt--;
+        if(rear==front)
+        {
+            arr[front]=-1;
+            front=-1;
+            rear=-1;
+        }
+        else if(front==k-1)
+        {
+            arr[front]=-1;
+            front=0;
+        }
+        else
+        {
+            arr[front]=-1;
+            front++;
+        }
         return true;
     }
     
     bool deleteLast() {
-        if(cnt==0)
+        if(front==-1)
         {
             return false;
         }
-        arr[(rear-1+k)%k]=-1;
-        rear=(rear-1+k)%k;
-        cnt--;
+        if(rear==front)
+        {
+            arr[rear]=-1;
+            front=-1;
+            rear=-1;
+        }
+        else if(rear==0)
+        {
+            arr[rear]=-1;
+            rear=k-1;
+        }
+        else
+        {
+            arr[rear]=-1;
+            rear--;
+        }
         return true;
     }
     
     int getFront() {
-        if(cnt==0)
+        if(front==-1)
         {
             return -1;
         }
-        return arr[(front+1)%k];
+        return arr[front];
     }
     
     int getRear() {
-        if(cnt==0)
+        if(front==-1)
         {
             return -1;
         }
-        return arr[(rear-1+k)%k];
+        return arr[rear];
     }
     
     bool isEmpty() {
-        if(cnt==0)
+        if(front==-1)
         {
             return true;
         }
@@ -82,7 +132,7 @@ public:
     }
     
     bool isFull() {
-        if(cnt==k)
+        if((rear==k-1 && front==0) || (rear==(front-1+k)%k))
         {
             return true;
         }

@@ -17,20 +17,10 @@ public:
             }
             if(cnt==2)
             {
-                break;
+                return a;
             }
             i++;
         }
-        // if(cnt!=3 && i==nums.size()-1)
-        // {
-        //     if(nums[i-1]!=nums[i])
-        //     {
-        //         a=nums[i];
-        //         cnt++;
-        //     }
-        // }
-        if(cnt==2)
-        return a;
         return nums[0];
     }
 };

@@ -4,10 +4,6 @@ public:
         int n=1;
         int l=gas.size();
         int i=0;
-         if(gas.size()==1 && (gas[i]-cost[i])>=0)
-        {
-            return 0;
-        }
         int totalGas=0,totalCost=0;
         for(int j=0;j<gas.size();j++)
         {

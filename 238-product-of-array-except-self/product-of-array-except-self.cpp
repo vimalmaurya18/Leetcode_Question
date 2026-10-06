@@ -17,6 +17,7 @@ public:
         int ans2=1;
         suff.push_back(1);
         i=nums.size()-2;
+        // For suffix product
         while(i>=0)
         {
             ans2=ans2*nums[i+1];

@@ -69,10 +69,6 @@ public:
                         break;
                     }
                 }
-                if(pre<0)
-                {
-                    pre=0;
-                }
             }
         }
         int n=lps[suf-1];

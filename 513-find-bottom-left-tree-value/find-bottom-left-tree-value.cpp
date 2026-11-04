@@ -12,22 +12,21 @@
 class Solution {
 public:
     int findBottomLeftValue(TreeNode* root) {
-        vector<vector<int>>result;
 
+        //In this we only need to traverse levelwise
         queue<TreeNode*>q;
         q.push(root);
-
+        int ans;
         while(!q.empty())
         {
             int size=q.size();
-            vector<int>ans;
+             ans=q.front()->val;
 
             for(int i=0;i<size;i++)
             {
                 TreeNode* frontnode=q.front();
                 q.pop();
 
-                ans.push_back(frontnode->val);
                 if(frontnode->left)
                 {
                     q.push(frontnode->left);
@@ -37,8 +36,7 @@ public:
                     q.push(frontnode->right);
                 }
             }
-            result.push_back(ans);
         }
-        return result[result.size()-1][0];
+         return ans;
     }
 };

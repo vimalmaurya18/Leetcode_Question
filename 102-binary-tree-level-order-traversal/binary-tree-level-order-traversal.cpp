@@ -17,6 +17,7 @@ public:
         {
             return ans;
         }
+
         queue<TreeNode*>q;
         q.push(root);
 
@@ -24,13 +25,15 @@ public:
         {
             int size=q.size();
             vector<int>result;
+
+            //Here we are using for loop because we have to return in vector<vector<>>
+            
             for(int i=0;i<size;i++)
             {
                 TreeNode* frontnode=q.front();
                 q.pop();
-                
-                result.push_back(frontnode->val);
 
+                result.push_back(frontnode->val);
                 if(frontnode->left)
                 {
                     q.push(frontnode->left);
